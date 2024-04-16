@@ -154,14 +154,14 @@
           myHeaders.append("Content-Type", "application/json")
           myHeaders.append("Authorization", "Bearer " + getTheToken())
 
+          let quiz = {title : quizTitle, questionIds : quizQuestions}
+
           let request = {
             method: "POST",
             headers: myHeaders,
             body: JSON.stringify({"title": quizTitle, "questionIds": quizQuestions}),
             redirect : "follow"
         };
-
-        let response = await fetch(host + "/questions", request);
 
           
         } else {
@@ -181,6 +181,8 @@
         }
 
         let response = await fetch(endpoint, request);
+
+        
         if(response.status == 200) {
           quizId = await response.json();
           alert("The quiz was saved successfully!");
