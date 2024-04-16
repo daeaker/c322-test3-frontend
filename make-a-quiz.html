@@ -54,7 +54,8 @@
       displayTheQuestions();
 
       async function getAll() {
-        let response = await fetch(host + "/questions");
+        const headers = {'Authorization' : 'Bearer ${configuration.token()}'}
+        let response = await fetch(host + "/questions", { headers });
         let result = await response.json();
         return result;
       }
@@ -115,6 +116,7 @@
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              'Authorization' : 'Bearer ${configuration.token()}'
             },
             body: JSON.stringify({"title": quizTitle, "questionIds": quizQuestions}),
           };
@@ -124,6 +126,7 @@
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
+              'Authorization' : 'Bearer ${configuration.token()}'
             },
             body: JSON.stringify({"id": quizId, "title": quizTitle, "questionIds": quizQuestions}),
           };

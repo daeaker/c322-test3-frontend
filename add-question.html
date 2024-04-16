@@ -67,7 +67,20 @@
       displayTheQuestions();
 
       async function getAll() {
-        let response = await fetch(host + "/questions");
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + getTheToken())
+
+        let request = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow"
+        };
+
+        let response = await fetch(host + "/questions", request)
+
+
+        // const headers = {'Authorization' : 'Bearer ${configuration.token()}'}
+        // let response = await fetch(host + "/questions", { headers });
         let result = await response.json();
         return result;
       }
@@ -136,6 +149,7 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            'Authorization' : 'Bearer ${configuration.token()}'
           },
           body: JSON.stringify(question),
         };
@@ -162,6 +176,9 @@
         formData.append("file", imageFile);
         let request = {
           method: "POST",
+          headers : {
+            'Authorization' : 'Bearer ${configuration.token()}'
+          },
           body: formData,
         };
         let response = await fetch(
