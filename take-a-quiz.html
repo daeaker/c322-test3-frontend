@@ -40,7 +40,7 @@
           };
 
 
-          let response = await fetch(host + "/quizzes/" + id, request);
+          let response = await fetch(host + "/quizzes", request);
           let result = await response.json();
           return result;
         }

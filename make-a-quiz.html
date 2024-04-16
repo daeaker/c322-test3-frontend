@@ -90,10 +90,29 @@
             quizHeader.innerText = `The new quiz(${n} questions)`;
             console.log(quizQuestions);
           };
+
+
+          const myHeaders = new Headers();
+          myHeaders.append("Authorization", "Bearer " + getTheToken())
+
+          let request = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+          };
+
+          let response = await fetch(host + "/questions/" + question.id + "/image", request)
+          let result = await response.blob()
+
+          let imageURL = URL.createObjectURL(result)
+
+
+
+
           div.className = "card";
           let innerHtml = `
        
-      <img src="http://localhost:8080/questions/${question.id}/image" alt="question" style="width:100%">
+      <img src="${imageURL}" alt="question" style="width:100%">
       <div class="container">
         <h4><b>${question.id}</b></h4> 
         <p>${question.description}</p>
