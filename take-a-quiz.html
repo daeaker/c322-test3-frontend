@@ -30,8 +30,17 @@
         displayTheQuizzes();
   
         async function getAll() {
-          const headers = {'Authorization' : 'Bearer ${configuration.token()}'}
-          let response = await fetch(host + "/quizzes", { headers });
+          const myHeaders = new Headers();
+          myHeaders.append("Authorization", "Bearer " + getTheToken())
+
+          let request = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+          };
+
+
+          let response = await fetch(host + "/quizzes/" + id, request);
           let result = await response.json();
           return result;
         }

@@ -145,15 +145,19 @@
       async function addTheQuestion(question, imageFile) {
         let message = "";
 
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json")
+        myHeaders.append("Authorization", "Bearer " + getTheToken())
+
         let request = {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            'Authorization' : 'Bearer ${configuration.token()}'
-          },
+          headers: myHeaders,
           body: JSON.stringify(question),
+          redirect : "follow"
         };
+
         let response = await fetch(host + "/questions", request);
+        
         if (response.status == 200) {
           let id = await response.json();
           let result = await submitTheImage(id, imageFile);
@@ -172,14 +176,19 @@
       }
 
       async function submitTheImage(id, imageFile) {
+
+
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + getTheToken())
+
         let formData = new FormData();
         formData.append("file", imageFile);
+
         let request = {
           method: "POST",
-          headers : {
-            'Authorization' : 'Bearer ${configuration.token()}'
-          },
+          headers : myHeaders,
           body: formData,
+          redirect : "follow"
         };
         let response = await fetch(
           host + "/questions/" + id + "/image",

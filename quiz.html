@@ -45,7 +45,18 @@
       startTheQuiz();
 
       async function startTheQuiz() {
-        let response = await fetch(host + "/quizzes/" + id);
+
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + getTheToken())
+
+        let request = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow"
+        };
+
+
+        let response = await fetch(host + "/quizzes/" + id, request);
         quiz = await response.json();
         await displayTheQuestion(0);
       }

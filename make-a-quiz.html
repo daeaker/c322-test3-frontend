@@ -54,8 +54,17 @@
       displayTheQuestions();
 
       async function getAll() {
-        const headers = {'Authorization' : 'Bearer ${configuration.token()}'}
-        let response = await fetch(host + "/questions", { headers });
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + getTheToken())
+
+        let request = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow"
+        };
+
+        let response = await fetch(host + "/questions", request)
+
         let result = await response.json();
         return result;
       }
@@ -112,23 +121,43 @@
         let request = {};
         if (!quizId) {
           endpoint = host + "/quizzes";
-          request = {
+          // request = {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     'Authorization' : 'Bearer ${configuration.token()}'
+          //   },
+          //   body: JSON.stringify({"title": quizTitle, "questionIds": quizQuestions}),
+          // };
+
+
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json")
+          myHeaders.append("Authorization", "Bearer " + getTheToken())
+
+          let request = {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              'Authorization' : 'Bearer ${configuration.token()}'
-            },
+            headers: myHeaders,
             body: JSON.stringify({"title": quizTitle, "questionIds": quizQuestions}),
-          };
+            redirect : "follow"
+        };
+
+        let response = await fetch(host + "/questions", request);
+
+          
         } else {
           endpoint = host + "/quizzes/" + quizId;
+
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json")
+          myHeaders.append("Authorization", "Bearer " + getTheToken())
+
+
           request = {
             method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              'Authorization' : 'Bearer ${configuration.token()}'
-            },
+            headers: myHeaders,
             body: JSON.stringify({"id": quizId, "title": quizTitle, "questionIds": quizQuestions}),
+            redirect : "follow"
           };
         }
 
