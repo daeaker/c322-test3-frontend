@@ -154,9 +154,7 @@
           myHeaders.append("Content-Type", "application/json")
           myHeaders.append("Authorization", "Bearer " + getTheToken())
 
-          let quiz = {}
-          quiz.title = quizTitle
-          quiz.questionIds = quizQuestions
+          let quiz = {"title" : quizTitle, "questionIds" : quizQuestions}
 
           let request = {
             method: "POST",
@@ -174,7 +172,7 @@
           myHeaders.append("Content-Type", "application/json")
           myHeaders.append("Authorization", "Bearer " + getTheToken())
 
-          let quiz = {}
+          let quiz = {"title" : quizTitle, "questionIds" : quizQuestions, "id" : quizId}
           quiz.title = quizTitle
           quiz.questionIds = quizQuestions
           quiz.id = quizId
