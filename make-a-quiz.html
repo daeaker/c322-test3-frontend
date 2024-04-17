@@ -154,16 +154,19 @@
           myHeaders.append("Content-Type", "application/json")
           myHeaders.append("Authorization", "Bearer " + getTheToken())
 
-          let quiz = {title : quizTitle, questionIds : quizQuestions}
+          let quiz = {}
+          quiz.title = quizTitle
+          quiz.questionIds = questions
 
           let request = {
             method: "POST",
             headers: myHeaders,
-            body: JSON.stringify({"title": quizTitle, "questionIds": quizQuestions}),
+            body: JSON.stringify(quiz),
             redirect : "follow"
         };
 
-          
+        
+
         } else {
           endpoint = host + "/quizzes/" + quizId;
 
@@ -171,18 +174,23 @@
           myHeaders.append("Content-Type", "application/json")
           myHeaders.append("Authorization", "Bearer " + getTheToken())
 
+          let quiz = {}
+          quiz.title = quizTitle
+          quiz.questionIds = questions
+          quiz.id = quizId
+
 
           request = {
             method: "PUT",
             headers: myHeaders,
-            body: JSON.stringify({"id": quizId, "title": quizTitle, "questionIds": quizQuestions}),
+            body: JSON.stringify(quiz),
             redirect : "follow"
           };
         }
 
         let response = await fetch(endpoint, request);
 
-        
+
         if(response.status == 200) {
           quizId = await response.json();
           alert("The quiz was saved successfully!");
